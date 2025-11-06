@@ -1,7 +1,7 @@
 # Intentionally vulnerable dependencies for testing GitHub Dependency Review
 
 # Django with known CVE vulnerabilities (very old version)
-Django==2.2.0
+Django==4.2.26
 
 # Flask with known vulnerabilities
 Flask==0.12.2
