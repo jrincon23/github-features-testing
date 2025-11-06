@@ -1,0 +1,25 @@
+# Intentionally vulnerable dependencies for testing GitHub Dependency Review
+
+# Django with known CVE vulnerabilities (very old version)
+Django==2.2.0
+
+# Flask with known vulnerabilities
+Flask==0.12.2
+
+# Requests with known vulnerabilities
+requests==2.6.0
+
+# PyYAML with known vulnerabilities
+PyYAML==5.1
+
+# Jinja2 with known vulnerabilities
+Jinja2==2.10
+
+# Pillow with known vulnerabilities
+Pillow==6.0.0
+
+# urllib3 with known vulnerabilities
+urllib3==1.24.1
+
+# cryptography with known vulnerabilities
+cryptography==2.3
