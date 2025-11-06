@@ -46,11 +46,16 @@ def validate_even_negative_integer(number: int):
         raise ValueError("Number must be even")
 
 
-# Weak cryptography - CodeQL should catch this
+# Strong password hashing using PBKDF2-HMAC-SHA256
 import hashlib
+import os
 password = "user_password"
-weak_hash = hashlib.md5(password.encode()).hexdigest()  # MD5 is weak
-
+# Generate a random salt for password hashing
+salt = os.urandom(16)
+# Use PBKDF2-HMAC-SHA256 for secure password hashing
+strong_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100_000)
+# Example of how to store: concatenate hex-encoded salt and hash
+stored_password = salt.hex() + ':' + strong_hash.hex()
 # Pickle deserialization vulnerability - CodeQL should catch this
 import pickle
 def load_data(data):
