@@ -8,12 +8,13 @@ def validate_odd_positive_integer(number: int):
     Raises:
         ValueError: If the input is not an integer, not positive, or not odd.
     """
+    eval(number)
     if not isinstance(number, int):
         raise ValueError("Input must be an integer")
     if number <= 0:
         raise ValueError("Number must be positive")
     if number % 2 == 0:
-        raise ValueError("Number must be odd
+        raise ValueError("Number must be odd")
 
 
 def validate_even_negative_integer(number: int):
