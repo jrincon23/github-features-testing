@@ -1,3 +1,10 @@
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file = ".env", extra = "allow")
+
+s = Settings().model_dump()
+
 def validate_odd_positive_integer(number: int):
     """
     Validates that the input is an odd, positive integer.
@@ -8,27 +15,6 @@ def validate_odd_positive_integer(number: int):
     Raises:
         ValueError: If the input is not an integer, not positive, or not odd.
     """
-    # SQL Injection vulnerability - CodeQL should catch this
-    import sqlite3
-    conn = sqlite3.connect('example.db')
-    cursor = conn.cursor()
-    query = "SELECT * FROM users WHERE id = " + str(number)  # Unsafe string concatenation
-    cursor.execute(query)
-    
-    # Command injection vulnerability - CodeQL should catch this
-    import os
-    os.system("echo " + str(number))  # Unsafe command execution
-    
-    # Hardcoded credentials - CodeQL should catch this
-    api_key = "sk-1234567890abcdef"
-    database_password = "admin123"
-    
-    # Path traversal vulnerability - CodeQL should catch this
-    import sys
-    filename = sys.argv[1] if len(sys.argv) > 1 else "default.txt"
-    with open(filename, 'r') as f:  # Unvalidated user input used in file path
-        content = f.read()
-    
     if not isinstance(number, int):
         raise ValueError("Input must be an integer")
     if number <= 0:
@@ -46,11 +32,16 @@ def validate_even_negative_integer(number: int):
         raise ValueError("Number must be even")
 
 
-# Weak cryptography - CodeQL should catch this
+# Strong password hashing using PBKDF2-HMAC-SHA256
 import hashlib
+import os
 password = "user_password"
-weak_hash = hashlib.md5(password.encode()).hexdigest()  # MD5 is weak
-
+# Generate salt for password hashing
+salt = s["salt"].encode()  # Using salt from .env
+# Use PBKDF2-HMAC-SHA256 for secure password hashing
+strong_hash = hashlib.pbkdf2_hmac('sha256', password.encode(), salt, 100_000)
+# Example of how to store: concatenate hex-encoded salt and hash
+stored_password = salt.hex() + ':' + strong_hash.hex()
 # Pickle deserialization vulnerability - CodeQL should catch this
 import pickle
 def load_data(data):
